@@ -28,30 +28,27 @@ function createProgram(gl, vertexShader, fragmentShader) {
 function main() {
     var canvas = document.querySelector("#c");
     var gl = canvas.getContext("webgl");
-
     if (!gl) {
-        alert("!gl occured");
-        return; 
+        return;
     }
-    
-    var vertexShaderSource = document.querySelector("#vertex-shader-2d").text;
-    var fragmentShaderSource = document.querySelector("#fragment-shader-2d").text;
 
-    var vertexShader = createShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
-    var fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource);
-
-    var program = createProgram(gl, vertexShader, fragmentShader);
+    var program = webglUtils.createProgramFromScripts(gl, ["vertex-shader-2d", "fragment-shader-2d"]);
 
     var positionAttributeLocation = gl.getAttribLocation(program, "a_position");
+
+    var resolutionUniformLocation = gl.getUniformLocation(program, "u_resolution");
 
     var positionBuffer = gl.createBuffer();
 
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
 
     var positions = [
-        -1, -1,
-        0, 1,
-        1, 0,
+        10, 20,
+        80, 20,
+        10, 30,
+        10, 30,
+        80, 20,
+        80, 30,
     ];
 
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
@@ -62,7 +59,7 @@ function main() {
 
     gl.clearColor(0, 0, 0, 0);
     gl.clear(gl.COLOR_BUFFER_BIT);
-
+    
     gl.useProgram(program);
 
     gl.enableVertexAttribArray(positionAttributeLocation);
@@ -77,9 +74,12 @@ function main() {
 
     gl.vertexAttribPointer(positionAttributeLocation, size, type, normalize, stride, offset);
 
+    gl.uniform2f(resolutionUniformLocation, gl.canvas.width, gl.canvas.height);
+
     var primitiveType = gl.TRIANGLES;
     var offset = 0;
-    var count = 3;
+    var count = 6;
+
     gl.drawArrays(primitiveType, offset, count);
 }
 
