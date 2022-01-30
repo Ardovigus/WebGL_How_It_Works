@@ -1,0 +1,41 @@
+<html>
+<head>
+    <style>
+        @import url("https://webglfundamentals.org/webgl/resources/webgl-tutorials.css");
+
+        body {  
+            margin: 0;
+        }
+
+        canvas {
+            width: 100vw;
+            height: 100vh;
+            display: block;
+            background-color: slategray;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="c"></canvas>
+
+    <script src="https://webglfundamentals.org/webgl/resources/webgl-utils.js"></script>
+    
+    <script id="vertex-shader-2d" type="notjs">     
+    attribute vec4 a_position;
+
+    void main() {
+        gl_Position = a_position;
+    }
+    </script>
+
+    <script id="fragment-shader-2d" type="notjs">
+    precision mediump float;
+
+    void main() {
+        gl_FragColor = vec4(1, 1, 1, 1);
+    }
+    </script>
+
+    <script src="script.js"></script>
+</body>
+</html>
